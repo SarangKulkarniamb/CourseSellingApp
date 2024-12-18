@@ -2,4 +2,4 @@ GET http://localhost:3000/users/purchases
 
 ###
 
-GET http://localhost:3000/users/purchases
+GET http://localhost:3000/users/purchases/16
