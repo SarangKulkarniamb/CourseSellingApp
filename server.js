@@ -9,7 +9,7 @@ app.use(express.json())
 const usersRouter=require("./routes/users")
 app.use("/users",usersRouter)
 
-const coursesRouter=require("./routes/main")
+const coursesRouter=require("./routes/courses")
 app.use("/courses",coursesRouter)
 
 
