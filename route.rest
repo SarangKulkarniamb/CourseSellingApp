@@ -6,4 +6,22 @@ GET http://localhost:3000/users/purchases/16
 
 ###
 
-GET http://localhost:3000/admin/
+POST http://localhost:3000/admin/signup/
+Content-Type: application/json
+
+{
+    "email" : "sarangkulkarni@gmail.com",
+    "password" : "abc1104",
+    "firstName" : "SarangBhau",
+    "lastName" : "Kulkarni"
+}
+
+###
+
+POST http://localhost:3000/admin/signin/
+Content-Type: application/json
+
+{
+    "email" : "sarangkulkarni@gmail.com",
+    "password" : "abc1104"
+}
