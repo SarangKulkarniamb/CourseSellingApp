@@ -4,7 +4,7 @@ const router=express.Router()
 const { userModel } =require('../db')
 const jwt = require("jsonwebtoken") 
 const JWT_USER_PASSWORD = process.env.JWT_USER_PW
-
+const { userMiddleware } = require("../middleware/user")
 
 router.post('/signup', async function(req, res) {
     const { email, password, firstName, lastName } = req.body
