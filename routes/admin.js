@@ -70,18 +70,11 @@ router.put("/course/update", adminMiddleware, async function(req, res) {
     const adminId = req.userId;
     const { title, description, price, imageUrl, courseId } = req.body;
     try {
-        console.log("Request body:", req.body); // Log the request body
 
         const course = await courseModel.updateOne(
             { _id: courseId, creatorId: adminId },
             { title, description, price, imageUrl }
         );
-
-        console.log("Update result:", course); // Log the result of the update operation
-
-        if (course.nModified === 0) {
-            return res.status(404).json({ message: "Course not found or no changes made" });
-        }
 
         res.json({
             course: course,
@@ -106,7 +99,7 @@ router.get("/course/bulk", adminMiddleware, async function(req, res) {
     }
 });
 
-router.get("/course/:id", adminMiddleware, async function(req, res) {
+router.get("/:id", adminMiddleware, async function(req, res) {
     try {
         const course = await courseModel.findOne({
             _id:req.params.id
@@ -117,4 +110,6 @@ router.get("/course/:id", adminMiddleware, async function(req, res) {
         res.status(500).json({ "error": error.message });
     }
 });
+
+
 module.exports=router

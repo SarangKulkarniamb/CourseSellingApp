@@ -1,7 +1,7 @@
 const express = require('express')
 require('dotenv').config();
 const router=express.Router()
-const { userModel } =require('../db')
+const { userModel , courseModel, purchasesModel} =require('../db')
 const jwt = require("jsonwebtoken") 
 const JWT_USER_PASSWORD = process.env.JWT_USER_PW
 const { userMiddleware } = require("../middleware/user")
@@ -40,15 +40,38 @@ router.post('/signin',  async function(req,res){
     
 })
 
-router.get('/purchases',  function(req,res){
-    res.json({"message" : "signup"})
+router.get('/purchases', userMiddleware, async function(req, res) {
+    const userId = req.userId;
+    try {
+        const purchases = await purchasesModel.find({ userId }).populate('courseId');
+        const courses = purchases.map(purchase => purchase.courseId);
+
+        res.status(200).json(courses);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ "error": error.message });
+    }
+});
+
+
+router.post('/buy',  userMiddleware , async function(req,res){
+    const { courseId } = req.body
+    const userId = req.userId
+    try {
+        const purchase = await purchasesModel.create({
+            userId : userId , courseId : courseId
+        })
+        res.json({
+            message : "Course bought successfully",
+            purchase :purchase
+        })
+    } catch (error) {
+        res.status(201).json({
+            error : error.message
+        })
+    }
+    
 })
 
-router.post('/buy',  function(req,res){
-    res.json({"message" : "signup"})
-})
-router.get('/purchases/:id',  function(req,res){
-    res.json({"id" : req.params.id})
-})
 
 module.exports=router
